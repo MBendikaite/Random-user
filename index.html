@@ -55,12 +55,12 @@ body{
         margin: auto;
         border-radius: 5px;
         margin-top: -35vh;
-        background-color: #fff;
+        background-color: white
         padding-bottom: 50px;
         position: relative;
     }
     .profile_header{
-        background-color: #eee;
+        background-color: white;
         border-bottom: 1px solid #bdbdbd;
         padding: 90px;
     }
@@ -88,7 +88,7 @@ body{
     .title_info{
         margin-top: 30px;
         text-align: center;
-        font-size: 16px;
+        font-size: 18px;
 
     }
     .title_details{
@@ -116,7 +116,8 @@ body{
 
     .bi{
         font-size: 30px;
-        color: green
+        color: green;
+        transition: all .3s ease-in-out;
     }
 
 
@@ -135,15 +136,16 @@ body{
             <div class="title_info">Hi, My name is</div>
             <div class="title_details">Eileen Diaz</div>
             <div class="info_icons">
-                <div class="icon user_active"  data-title="Hi, My name is" data-value="Eileen Diaz"><i class="bi bi-person"></i></div>
-                <div class="icon email" data-title="My email address is" data-value="abdc@email.com"><i class="bi bi-envelope"></i></div>
-                <div class="icon birthday" data-title="My age is" data-value="7yrs"><i class="bi bi-file-spreadsheet"></i></div>
-                <div class="icon location" data-title="My address is" data-value="Mumbai"><i class="bi bi-pin-map"></i></div>
-                <div class="icon phone" data-title="My phone number is" data-value="1234567890"><i class="bi bi-telephone"></i></div>
-                <div class="icon password" data-title="My password is" data-value="123456"><i class="bi bi-lock"></i></div>
+                <div class="icon user_active"  data-title="Hi, My name is" data-value="Eileen Diaz"><i class="bi bi-person active" ></i></div>
+                <div class="icon email_" data-title="My email address is" data-value="abdc@email.com"><i class="bi bi-envelope active"></i></div>
+                <div class="icon birthday_" data-title="My age is" data-value="7yrs"><i class="bi bi-file-spreadsheet active"></i></div>
+                <div class="icon location_" data-title="My address is" data-value="Mumbai"><i class="bi bi-pin-map active"></i></div>
+                <div class="icon phone_" data-title="My phone number is" data-value="1234567890"><i class="bi bi-telephone active"></i></div>
+                <div class="icon password_" data-title="My password is" data-value="123456"><i class="bi bi-lock active"></i></div>
             </div>
         </div>
     </div>
+
     <script>
 
 //refresh page
@@ -153,7 +155,9 @@ refresh.addEventListener("click", function(){
     location.reload();
 })
 
+
 const title_details = document.querySelector(".title_details");
+const info_icons = document.querySelector(".info_icons")
 const user_image = document.querySelector(".user_img")
 
 // fetching data
@@ -163,35 +167,37 @@ fetch("https://randomuser.me/api/")
 .then(function(data){
     // console.log(data);
     let userData = data.results[0];
-    console.log(userData)
+    // console.log(userData)
     let imgSrc = `<img src="${userData.picture.large}">`
     let name = `${userData.name.first} ${userData.name.last}`
-    let content = `
-    <div class="icon user_active"  data-title="Hi, My name is" data-value=${userData.name.first} ${userData.name.last}><i class="bi bi-person"></i></div>
-    <div class="icon email_" data-title="My email address is" data-value=${userData.email}><i class="bi bi-envelope"></i></div>
-    <div class="icon birthday_" data-title="My age is" data-value="${userData.age}yrs"><i class="bi bi-file-spreadsheet"></i></div>
-    <div class="icon location_" data-title="My address is" data-value="${userData.location.country}"><i class="bi bi-pin-map"></i></div>
+    
+    let content_ = `
+    <div class="icon user_"  data-title="Hi, My name is" data-value="${userData.name.first} ${userData.name.last}"><i class="bi bi-person"></i></div>
+    <div class="icon email_" data-title="My email address is" data-value="${userData.email}"><i class="bi bi-envelope"></i></div>
+    <div class="icon birthday_" data-title="My age is" data-value="${userData.dob.date.split('T')[0]}"><i class="bi bi-file-spreadsheet"></i></div>
+    <div class="icon location_" data-title="My address is" data-value="${userData.location.street.number + ' ' + userData.location.street.name}"><i class="bi bi-pin-map"></i></div>
     <div class="icon phone_" data-title="My phone number is" data-value="${userData.cell}"><i class="bi bi-telephone"></i></div>
     <div class="icon password_" data-title="My password is" data-value="${userData.login.password}"><i class="bi bi-lock"></i></div>
     `
-    info_icons.innerHTML = content;
+    info_icons.innerHTML = content_;
     user_image.innerHTML = imgSrc;
     title_details.innerHTML = name;
-}
-    )
-
-//hover and change details
-const info_icons = document.querySelector(".info_icons")
+   
 const icon = document.querySelectorAll(".icon");
 const title_info = document.querySelector(".title_info");
+const title_details_ = document.querySelector(".title_details");
+
+
+//hover and change details
+
 
 icon.forEach(function (item){
 item.addEventListener("mouseover", function () {
-let titleData = item.getAttribute("data-title")
-let dataValue = item.getAttribute("data-value")
+let titleData = item.getAttribute("data-title");
+let dataValue = item.getAttribute("data-value");
 
 title_info.innerHTML = titleData;
-dataValue.innerHTML = dataValue;
+title_details_.innerHTML = dataValue;
 
 let activeClass = document.querySelectorAll(".active")
 activeClass.forEach(function(active){
@@ -200,6 +206,8 @@ active.className  = active.className.replace("active", "")
 item.className += "active";
 })
 })
+}
+    )
 
 
 
